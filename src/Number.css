@@ -1,14 +1,29 @@
 .Number {
   flex-basis: 10vw;
-  height: 10vh;
+  line-height: 1px;
   text-align: center;
   display: flex;
-  background-color: red;
+  color: #EEE;
   align-items: center;
   justify-content: center;
   border: 10px solid white;
+
+  font-size: 2em;
 }
 
   .Number strong {
+  }
+
+  .Number.current {
+    color: green;
+  }
+  .Number.issued {
+    color: cadetblue;
+  }
+
+  .Number.issued.current {
+    color: white;
+    background-color: blueviolet;
+    font-size: 3em;
   }
 
