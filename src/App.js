@@ -40,16 +40,17 @@ class App extends Component {
       issuedNumber: shuffle(numbers),
       animating: false,
       animationPos: 0,
-      currentPos: 0
+      currentPos: 0,
+      lastIssuedNumber: 0
     };
 
-    console.log(this.state)
-
     this.animate = this.animate.bind(this);
+
   }
 
   componentDidMount() {
     window.addEventListener('keydown', this.onKeyDown.bind(this));
+    window.addEventListener('dblclick', this.onDblClick.bind(this));
     this.animate();
   }
 
@@ -68,9 +69,13 @@ class App extends Component {
     //evt.keyCode === 27 && this.reset();
   }
 
+  onDblClick() {
+    this[!this.state.animating ? 'start' : 'stop']();
+  }
+
   start() {
 
-    const extractionDuration = 10000;
+    const extractionDuration = 18100;
 
     if (this.state.animating) return;
 
@@ -85,21 +90,21 @@ class App extends Component {
       this.t.stop();
     }
 
-    this.t = new TWEEN.Tween({ pos: 0 })
+    this.state.lastIssuedNumber
+
+    this.t = new TWEEN.Tween({ pos: this.state.lastIssuedNumber })
                   .to({ pos: totalnumberLenght + randomNumber }, extractionDuration)
                   
     // // this.t.interpolation( TWEEN.Interpolation.Linear );
     // this.t.easing(TWEEN.Easing.Quadratic.InOut);
     this.t.easing(TWEEN.Easing.Exponential.InOut);
-    // this.t.easing(TWEEN.Easing.Cubic.Out);
+    // this.t.easing(TWEEN.Easing.Cubic. Out);
 
     let _self = this;
 
     this.t.onUpdate(function (delta) {
       
       let currentPos = Math.floor(this.pos);
-
-      // console.log(currentPos);
 
       _self.setState({
         currentPos,
@@ -126,7 +131,8 @@ class App extends Component {
     });
 
     this.setState({
-      animating: true
+      animating: true,
+      lastIssuedNumber: randomNumber
     }, () => {
       this.t.start();
     });
@@ -176,9 +182,10 @@ class App extends Component {
       transform: `scaleX(${this.state.animationPos})`
     };
 
+    const wheelFigureClass = this.state.animating ? 'wheel__figure wheel__figure--start-rotation' : '';
+
     return (
       <div className="App">
-        
         
         <div className="numbers">
 
@@ -197,7 +204,10 @@ class App extends Component {
 
             <div className="timer" style={timerAnimation}></div>
 
+        </div>
 
+        <div className="wheel__container">
+          <div className={`wheel__figure ${wheelFigureClass}`}></div>
         </div>
 
 
