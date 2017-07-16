@@ -32,12 +32,15 @@ class App extends Component {
     super(props);
 
     const numbers = Array.apply(null, Array(100)).map( (e, i) => i+1);
+    const turnNumbers = numbers.concat(numbers, numbers, numbers, numbers, numbers);
 
     this.state = {
       numbers,
-      turnNumbers: shuffle(numbers),
-      issuedNumber:[],
-      animating: false
+      turnNumbers,
+      issuedNumber: shuffle(numbers),
+      animating: false,
+      animationPos: 0,
+      currentPos: 0
     };
 
     console.log(this.state)
@@ -67,51 +70,49 @@ class App extends Component {
 
   start() {
 
-    const extractionDuration = 7000;
+    const extractionDuration = 10000;
 
     if (this.state.animating) return;
 
-    let remainingNumbers = this.state.turnNumbers.slice();
-    const remainingNumbersLenght = remainingNumbers.length;
+    const randomNumber = this.state.issuedNumber.pop() - 1;
+    const totalnumberLenght = this.state.turnNumbers.length - this.state.numbers.length; 
 
-    remainingNumbers = remainingNumbers.concat(remainingNumbers, remainingNumbers, remainingNumbers);
+    const shuoldIssue = this.state.numbers[randomNumber];
 
-    const shuoldIssue = remainingNumbers[remainingNumbers.length - 1];
-
-    const totalAnimationNumbers = remainingNumbers.length;
+    console.log("Will issued " + shuoldIssue, randomNumber);
 
     if (this.t) {
       this.t.stop();
     }
 
     this.t = new TWEEN.Tween({ pos: 0 })
-                  .to({ pos: totalAnimationNumbers - 1 }, extractionDuration)
+                  .to({ pos: totalnumberLenght + randomNumber }, extractionDuration)
                   
-    // this.t.interpolation( TWEEN.Interpolation.Linear );
-    this.t.easing(TWEEN.Easing.Circular.Out);
+    // // this.t.interpolation( TWEEN.Interpolation.Linear );
+    // this.t.easing(TWEEN.Easing.Quadratic.InOut);
+    this.t.easing(TWEEN.Easing.Exponential.InOut);
+    // this.t.easing(TWEEN.Easing.Cubic.Out);
 
     let _self = this;
 
-    this.t.onUpdate(function (ttt) {
+    this.t.onUpdate(function (delta) {
       
-      let currentPos = Math.floor(this.pos) % remainingNumbersLenght;
+      let currentPos = Math.floor(this.pos);
 
       // console.log(currentPos);
 
       _self.setState({
-        currentPos: _self.state.turnNumbers[currentPos]
+        currentPos,
+        animationPos: delta
       });
     });
 
     this.t.onComplete(() => {
-
-      
-
       this.stop()
         .then(() => {
           console.log( shuoldIssue , this.state.currentPos )
-          if( (shuoldIssue !== this.state.currentPos)) {
-            console.error(shuoldIssue , this.state.currentPos);
+          if( (shuoldIssue !== this.state.turnNumbers[this.state.currentPos])) {
+            console.error(shuoldIssue , this.state.turnNumbers[this.state.currentPos]);
           }
           this.exctractNumber();
         })
@@ -147,13 +148,14 @@ class App extends Component {
 
    // turnNumbers: shuffle(numbers),
 
-    const number = this.state.turnNumbers.pop();
-    this.state.issuedNumber.push(number);
+    // const number = this.state.turnNumbers.pop();
+    const number = this.state.turnNumbers[this.state.turnNumbers.currentPos];
+    // this.state.issuedNumber.push(number);
 
     return new Promise(resolve => {
       this.setState({
-        turnNumbers: shuffle(this.state.turnNumbers),
-        issuedNumber: this.state.issuedNumber
+        // turnNumbers: shuffle(this.state.turnNumbers),
+        // issuedNumber: this.state.issuedNumber
       }, resolve);
     })
   }
@@ -169,10 +171,35 @@ class App extends Component {
 
   render() {
 
+    const timerAnimation = {
+      // width: (this.state.animationPos * 100) + "%"
+      transform: `scaleX(${this.state.animationPos})`
+    };
+
     return (
       <div className="App">
         
-        { this.state.numbers.map(n => <Number key={n} number={n} current={(this.state.currentPos === n) } issued={this.state.issuedNumber.indexOf(n) !== -1} />)}
+        
+        <div className="numbers">
+
+          {/*{ this.state.currentPos }*/}
+
+            {/*{ this.state.wheelNumbers.map(n => <Number key={n} number={n} />)}*/}
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={-4} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={-3} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={-2} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={-1} />
+            <Number className="marker" pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={0} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={1} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={2} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={3} />
+            <Number pos={this.state.currentPos} wheelNumbers={this.state.turnNumbers} offset={4} />
+
+            <div className="timer" style={timerAnimation}></div>
+
+
+        </div>
+
 
       </div>
     );

@@ -3,12 +3,14 @@
   line-height: 1px;
   text-align: center;
   display: flex;
-  color: #EEE;
+  flex-shrink: 1;
+  flex-grow: 1;
+
+  /*color: #EEE;*/
   align-items: center;
   justify-content: center;
-  border: 10px solid white;
-
-  font-size: 2em;
+height: 100%;
+  font-size: 3em;
 }
 
   .Number strong {
@@ -27,3 +29,12 @@
     font-size: 3em;
   }
 
+
+.Number.marker {
+  flex-basis: 20vw;
+  background: red;
+    padding: 10px;
+    border: none;
+    height: 100%;
+    font-size: 8em;
+}
