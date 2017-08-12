@@ -59,7 +59,9 @@ class App extends Component {
 
     this.audio = new Audio(beepAudio);
 
-    this.io = io('http://raspberrypi.local:8080');
+    this.io = io({
+      path: '/interface'
+    });
     this.io.on('button', (buttons) => {
       console.log(buttons)
 
