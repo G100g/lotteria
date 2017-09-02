@@ -58,6 +58,7 @@
   background: url('../assets/wheel.svg') no-repeat center center;
   background-size: contain;
   transform: rotate(0deg);
+  will-change: transform;
 }
 
 .wheel__figure--start-rotation {
