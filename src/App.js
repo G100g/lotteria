@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
 import TWEEN from "tween.js";
-import beepAudio from '../assets/beep.mp4';
-
-
+import beepAudio from "../assets/beep.mp4";
 
 import Number from "./Number";
 
@@ -32,18 +30,15 @@ function shuffle(originalArray) {
   return array;
 }
 
+
+
+
 class App extends Component {
   constructor(props) {
     super(props);
 
-    const numbers = shuffle(Array.apply(null, Array(100)).map((e, i) => i + 1));
-    const turnNumbers = numbers.concat(
-      numbers,
-      numbers,
-      numbers,
-      numbers,
-      numbers
-    );
+    const numbers = this.generateNumbers();
+    const turnNumbers = this.generateTurnsNumbers(numbers);
 
     this.state = {
       numbers,
@@ -52,7 +47,8 @@ class App extends Component {
       animating: false,
       animationPos: 0,
       currentPos: 0,
-      lastIssuedNumber: 0
+      lastIssuedNumber: 0,
+      serie: 0,
     };
 
     this.animate = this.animate.bind(this);
@@ -60,19 +56,16 @@ class App extends Component {
     this.audio = new Audio(beepAudio);
 
     this.io = io({
-      path: '/interface'
+      path: "/interface"
     });
-    this.io.on('button', (buttons) => {
-      console.log(buttons)
+    this.io.on("button", buttons => {
+      console.log(buttons);
 
       if (buttons.button1 && buttons.button1 === 1) {
         // this.start();
         this[!this.state.animating ? "start" : "stop"]();
-        
       }
     });
-
-
   }
 
   componentDidMount() {
@@ -90,7 +83,10 @@ class App extends Component {
         e.preventDefault();
         this[!this.state.animating ? "start" : "stop"]();
         break;
-        default:
+      case 83:
+        this.changeSerie();
+        break;
+      default:
     }
 
     // reset on [escape]
@@ -99,6 +95,64 @@ class App extends Component {
 
   onDblClick() {
     this[!this.state.animating ? "start" : "stop"]();
+  }
+
+  generateNumbers() {
+    return shuffle(Array.apply(null, Array(100)).map((e, i) => i + 1));
+  }
+
+  generateTurnsNumbers(numbers) {
+    return numbers.concat(
+      numbers,
+      numbers,
+      numbers,
+      numbers,
+      numbers
+    );
+  }
+
+  reset() {
+    return new Promise((resolve, reject) => {
+
+        const numbers = this.generateNumbers();
+        const turnNumbers = this.generateTurnsNumbers(numbers);
+
+      this.setState(
+        {
+          numbers,
+          turnNumbers,
+          issuedNumber: shuffle(numbers),
+          animating: false,
+          animationPos: 0,
+          currentPos: 0,
+          lastIssuedNumber: 0
+        },
+        resolve
+      );
+    });
+  }
+
+  /**
+   * 
+   * This function update the color series changing the background color, and resetting the numbers
+   * 
+   * @memberof App
+   */
+  changeSerie() {
+    this.reset().then(() => {
+      // UPdatedig brackgorunf color by array definition
+
+      let next = this.state.serie + 1;
+
+      if (next > 7) {
+        next = 0;
+      }
+
+      this.setState({
+        serie: next
+      })
+
+    });
   }
 
   start() {
@@ -136,22 +190,21 @@ class App extends Component {
     this.t.onUpdate(function(delta) {
       let currentPos = Math.floor(this.pos);
 
-      if ((lastPos === null || lastPos !== currentPos) && delta - lastDelta >= minPlayDistance) {
-        lastPos = currentPos
+      if (
+        (lastPos === null || lastPos !== currentPos) &&
+        delta - lastDelta >= minPlayDistance
+      ) {
+        lastPos = currentPos;
         _self.audio.play();
         // console.log(delta - lastDelta, minPlayDistance, (delta - lastDelta >= minPlayDistance))
-        
+
         lastDelta = delta;
-
       }
-
-      
 
       _self.setState({
         currentPos,
         animationPos: delta
       });
-
     });
 
     this.t.onComplete(() => {
@@ -234,7 +287,7 @@ class App extends Component {
       : "";
 
     return (
-      <div className="App">
+      <div className="App" data-serie={this.state.serie}>
         <div className="numbers">
           {/*{ this.state.currentPos }*/}
 
