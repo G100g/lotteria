@@ -65,6 +65,12 @@ class App extends Component {
         // this.start();
         this[!this.state.animating ? "start" : "stop"]();
       }
+
+      if (buttons.button2 && buttons.button2 === 1) {
+        // this.start();
+        this.changeSerie();
+      }
+
     });
   }
 
