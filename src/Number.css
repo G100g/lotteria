@@ -28,17 +28,77 @@
 }
 
 .Number.marker {
-  width: 240px;
-  flex-basis: 20vw;
+  width: 350px;
+  flex-basis: 30vw;
   background: white;
   padding: 10px;
   border: none;
   height: 100%;
-  font-size: 8em;
+  font-size: 12em;
   font-weight: bold;
   color: #424244;
   box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, .3);
 }
+
+.issuedNumber {
+  visibility: hidden;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, .1);
+  
+}
+
+.issuedNumber span {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, .3) 0px 0px 30px 6px;
+  font-weight: 900;
+  font-size: 33em;
+  padding: 5vh 4vw;
+  min-width: 50vw;
+  text-align: center;
+  /* border: 30px solid white; */
+}
+
+  .issuedNumber--visible {
+    visibility: visible;
+  }
+
+  .App[data-serie="0"] .issuedNumber {
+    background-color: #c9e9e6;
+  }
+  
+  .App[data-serie="1"] .issuedNumber {
+    background-color: #53aee3;
+  }
+  
+  .App[data-serie="2"] .issuedNumber {
+    background-color: #75c482;
+  }
+  
+  .App[data-serie="3"] .issuedNumber {
+    background-color: #f8ef3c;
+  }
+  
+  .App[data-serie="4"] .issuedNumber {
+    background-color: #ff9900;
+  }
+  
+  .App[data-serie="5"] .issuedNumber {
+    background-color: #ef5e67;
+  }
+  
+  .App[data-serie="6"] .issuedNumber {
+    background-color: #c05aa3;
+  }
+  
+  .App[data-serie="7"] .issuedNumber {
+    background-color: #eaa3b3;
+  }
 
 @media (orientation: landscape) and (max-width: 740px) {
 

@@ -4,6 +4,7 @@ import io from "socket.io-client";
 
 import TWEEN from "tween.js";
 import beepAudio from "../assets/beep.mp4";
+import beepAudioWav from "../assets/beep.wav";
 
 import Number from "./Number";
 
@@ -48,12 +49,19 @@ class App extends Component {
       animationPos: 0,
       currentPos: 0,
       lastIssuedNumber: 0,
+      showResult: false,
       serie: 0,
     };
 
     this.animate = this.animate.bind(this);
 
-    this.audio = new Audio(beepAudio);
+    const a = document.createElement('audio');
+    if (!!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''))) {
+      this.audio = new Audio(beepAudioWav);
+    } else {
+      this.audio = new Audio(beepAudio);
+    }
+    
 
     this.io = io({
       path: "/interface"
@@ -131,7 +139,8 @@ class App extends Component {
           animating: false,
           animationPos: 0,
           currentPos: 0,
-          lastIssuedNumber: 0
+          lastIssuedNumber: 0,
+          showResult: false,
         },
         resolve
       );
@@ -216,6 +225,11 @@ class App extends Component {
     this.t.onComplete(() => {
       this.stop().then(() => {
         // console.log(shuoldIssue, this.state.currentPos);
+        this.setState({
+          lastIssuedNumber: shuoldIssue,
+          showResult: true,
+        });
+
         if (shuoldIssue !== this.state.turnNumbers[this.state.currentPos]) {
           console.error(
             shuoldIssue,
@@ -223,9 +237,6 @@ class App extends Component {
 
           );
 
-          this.setState({
-            lastIssuedNumber: shuoldIssue
-          });
         }
         // this.exctractNumber();
       });
@@ -241,7 +252,8 @@ class App extends Component {
     this.setState(
       {
         animating: true,
-        lastIssuedNumber: randomNumber
+        lastIssuedNumber: randomNumber,
+        showResult: false,
       },
       () => {
         this.t.start();
@@ -357,9 +369,9 @@ class App extends Component {
           <div className={`wheel__figure ${wheelFigureClass}`} />
         </div>
 
-      {/* <div className="issuedNumber issuedNumber--show">
-          {this.state.lastIssuedNumber}
-          </div> */}
+      <div className={`issuedNumber ${this.state.showResult ? 'issuedNumber--visible' : ''}`}>
+          <span>{this.state.lastIssuedNumber}</span>
+      </div>
 
       </div>
     );
