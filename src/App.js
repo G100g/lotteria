@@ -226,7 +226,8 @@ class App extends Component {
       this.stop().then(() => {
         // console.log(shuoldIssue, this.state.currentPos);
         this.setState({
-          lastIssuedNumber: shuoldIssue,
+          lastIssuedNumber: randomNumber,
+          resultNumber: this.state.turnNumbers[this.state.currentPos],
           showResult: true,
         });
 
@@ -252,7 +253,7 @@ class App extends Component {
     this.setState(
       {
         animating: true,
-        lastIssuedNumber: randomNumber,
+        // lastIssuedNumber: randomNumber,
         showResult: false,
       },
       () => {
@@ -370,7 +371,7 @@ class App extends Component {
         </div>
 
       <div className={`issuedNumber ${this.state.showResult ? 'issuedNumber--visible' : ''}`}>
-          <span>{this.state.lastIssuedNumber}</span>
+          <span>{this.state.resultNumber}</span>
       </div>
 
       </div>
