@@ -219,8 +219,13 @@ class App extends Component {
         if (shuoldIssue !== this.state.turnNumbers[this.state.currentPos]) {
           console.error(
             shuoldIssue,
-            this.state.turnNumbers[this.state.currentPos]
+            this.state.turnNumbers[this.state.currentPos],
+
           );
+
+          this.setState({
+            lastIssuedNumber: shuoldIssue
+          });
         }
         // this.exctractNumber();
       });
@@ -351,6 +356,11 @@ class App extends Component {
         <div className="wheel__container">
           <div className={`wheel__figure ${wheelFigureClass}`} />
         </div>
+
+      {/* <div className="issuedNumber issuedNumber--show">
+          {this.state.lastIssuedNumber}
+          </div> */}
+
       </div>
     );
   }
