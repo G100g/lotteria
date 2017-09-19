@@ -62,10 +62,12 @@
   min-width: 50vw;
   text-align: center;
   /* border: 30px solid white; */
+  
 }
 
   .issuedNumber--visible {
     visibility: visible;
+    transition: visibility .3s ease 1.8s;
   }
 
   .App[data-serie="0"] .issuedNumber {
