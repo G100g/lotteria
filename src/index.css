@@ -1,5 +1,32 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.events_container {
+}
+
+.events_container__list {
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+    background-color: #f7df1e;
+}
+
+.events_container__item {
+    font-size: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+.events_container__list:nth-last-child() {
+    border: none;
+    margin-bottom: 0;
+}
+
+.events_container__item:hover {
+    color: white;
+    cursor: pointer;
 }

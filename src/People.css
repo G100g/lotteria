@@ -1,7 +1,7 @@
-.Number {
-    flex-basis: 10vw;
+.People {
+    /* flex-basis: 10vw; */
     line-height: 1px;
-    text-align: center;
+    text-align: left;
     display: flex;
     flex-shrink: 1;
     flex-grow: 1;
@@ -9,35 +9,36 @@
     /*color: #EEE;*/
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: auto;
     font-size: 3em;
     color: white;
 }
 
-.Number.current {
+.People.current {
     color: green;
 }
-.Number.issued {
+.People.issued {
     color: cadetblue;
 }
 
-.Number.issued.current {
+.People.issued.current {
     color: white;
     background-color: blueviolet;
     font-size: 3em;
 }
 
-.Number.marker {
-    width: 350px;
-    flex-basis: 30vw;
+.People.marker {
+    /* width: 350px; */
+    /* flex-basis: 30vw; */
     background: white;
-    padding: 10px;
+    padding: 0px 20px;
     border: none;
-    height: 100%;
-    font-size: 12em;
+    font-size: 7.5em;
     font-weight: bold;
+    line-height: 6.1rem;
     color: #424244;
     box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
 }
 
 .issuedNumber {
@@ -52,12 +53,12 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.issuedNumber span {
+.issuedNumber > span {
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 30px 6px;
     font-weight: 900;
-    font-size: 9.1rem;
-    padding: 20px;
+    font-size: 10rem;
+    padding: 3rem;
     text-align: center;
     line-height: 100%;
     /* border: 30px solid white; */
@@ -101,11 +102,11 @@
 }
 
 @media (orientation: landscape) and (max-width: 740px) {
-    .Number {
+    .People {
         font-size: 2em;
     }
 
-    .Number.marker {
+    .People.marker {
         width: 130px;
         flex-basis: 16vw;
         font-size: 4em;
