@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.9.5"
+    "react-scripts": "3.1.2"
   },
   "dependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "socket.io": "^2.0.3",
     "tween.js": "^16.6.0"
   },
@@ -18,5 +18,17 @@
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && now --public ./build"
   },
-  "proxy": "http://raspberrypi.local:8080"
+  "proxy": "http://raspberrypi.local:8080",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
