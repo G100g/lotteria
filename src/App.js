@@ -11,6 +11,8 @@ import Screensaver from "./Screensaver";
 
 import "./App.css";
 
+const SCREEN_SAVER_TIMOUT = 60000 * 10;
+
 function shuffle(originalArray) {
     let array = originalArray.slice();
     let counter = array.length;
@@ -90,7 +92,7 @@ class App extends Component {
     }
 
     idle() {
-        this.SI = setTimeout(() => this.showScreensaver(), 60000 * 10);
+        this.SI = setTimeout(() => this.showScreensaver(), SCREEN_SAVER_TIMOUT);
     }
 
     stopIdle() {
@@ -191,6 +193,7 @@ class App extends Component {
     start() {
         this.stopIdle();
         if (this.state.screensaver) {
+            this.idle();
             this.hideScreensaver();
             return;
         }
@@ -318,9 +321,7 @@ class App extends Component {
             : "";
 
         return this.state.screensaver ? (
-            <Screensaver
-                slides={["/screensaver/ss01.jpg", "/screensaver/ss02.jpg"]}
-            />
+            <Screensaver />
         ) : (
             <div className="App" data-serie={this.state.serie}>
                 <div className="numbers">
