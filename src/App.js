@@ -11,7 +11,7 @@ import Screensaver from "./Screensaver";
 
 import "./App.css";
 
-const SCREEN_SAVER_TIMOUT = 60000 * 10;
+const SCREEN_SAVER_TIMOUT = 60000 * 7;
 
 function shuffle(originalArray) {
     let array = originalArray.slice();
@@ -121,6 +121,10 @@ class App extends Component {
                 break;
             case 83:
                 this.changeSerie();
+                break;
+            case 79:
+                this.stopIdle();
+                this.showScreensaver();
                 break;
             default:
         }
