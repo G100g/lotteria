@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import WheelEngine from "./WheelEngine";
-import Events from "./Events";
 
 export default class componentName extends Component {
     constructor(props) {
