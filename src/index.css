@@ -30,3 +30,28 @@ body {
     color: white;
     cursor: pointer;
 }
+
+.partecipants {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-evenly;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.partecipants textarea {
+    padding: 1rem;
+    height: 100%;
+    font-size: 2rem;
+    border: 2px solid #ccc;
+}
+
+.partecipants button {
+    font-size: 2rem;
+    padding: 1rem;
+    border: none;
+    color: black;
+    background-color: #f3df49;
+    text-transform: uppercase;
+}

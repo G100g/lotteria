@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 
 import TWEEN from "tween.js";
-import beepAudio from "../assets/beep.mp4";
-import beepAudioWav from "../assets/beep.wav";
+import beepAudio from "./assets/beep.mp4";
+import beepAudioWav from "./assets/beep.wav";
 
 import People from "./People";
 
@@ -35,8 +35,8 @@ const Winner = ({ person, resultNumber }) => {
     return (
         <span>
             {person &&
-                person.name.split(" ").map(str => (
-                    <span>
+                person.name.split(" ").map((str, index) => (
+                    <span key={`${str}_${index}`}>
                         {str}
                         <br />
                     </span>
@@ -61,7 +61,7 @@ class WheelEngine extends Component {
             currentPos: 0,
             lastIssuedNumber: 0,
             showResult: false,
-            serie: 0
+            serie: 0,
         };
 
         this.animate = this.animate.bind(this);
@@ -76,9 +76,9 @@ class WheelEngine extends Component {
         }
 
         this.io = io({
-            path: "/interface"
+            path: "/interface",
         });
-        this.io.on("button", buttons => {
+        this.io.on("button", (buttons) => {
             console.log(buttons);
 
             if (buttons.button1 && buttons.button1 === 1) {
@@ -149,7 +149,7 @@ class WheelEngine extends Component {
                     animationPos: 0,
                     currentPos: 0,
                     lastIssuedNumber: 0,
-                    showResult: false
+                    showResult: false,
                 },
                 resolve
             );
@@ -173,7 +173,7 @@ class WheelEngine extends Component {
             }
 
             this.setState({
-                serie: next
+                serie: next,
             });
         });
     }
@@ -210,7 +210,7 @@ class WheelEngine extends Component {
         let minPlayDistance = 0.001;
         let lastDelta = 0;
 
-        this.t.onUpdate(function(delta) {
+        this.t.onUpdate(function (delta) {
             let currentPos = Math.floor(this.pos);
 
             if (
@@ -226,7 +226,7 @@ class WheelEngine extends Component {
 
             _self.setState({
                 currentPos,
-                animationPos: delta
+                animationPos: delta,
             });
         });
 
@@ -236,7 +236,7 @@ class WheelEngine extends Component {
                 this.setState({
                     lastIssuedNumber: randomNumber,
                     resultNumber: this.state.turnNumbers[this.state.currentPos],
-                    showResult: true
+                    showResult: true,
                 });
 
                 if (
@@ -263,7 +263,7 @@ class WheelEngine extends Component {
             {
                 animating: true,
                 // lastIssuedNumber: randomNumber,
-                showResult: false
+                showResult: false,
             },
             () => {
                 this.t.start();
@@ -273,10 +273,10 @@ class WheelEngine extends Component {
 
     stop() {
         console.log("stop");
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.setState(
                 {
-                    animating: false
+                    animating: false,
                 },
                 resolve
             );
@@ -310,10 +310,10 @@ class WheelEngine extends Component {
     }
 
     render() {
-        const timerAnimation = {
-            // width: (this.state.animationPos * 100) + "%"
-            transform: `scaleX(${this.state.animationPos})`
-        };
+        // const timerAnimation = {
+        //     // width: (this.state.animationPos * 100) + "%"
+        //     transform: `scaleX(${this.state.animationPos})`,
+        // };
 
         const wheelFigureClass = this.state.animating
             ? "wheel__figure wheel__figure--start-rotation"
@@ -324,7 +324,7 @@ class WheelEngine extends Component {
                 <div className="numbers">
                     {/*{ this.state.currentPos }*/}
 
-                    {[-3, -2, -1, 0, 1, 2, 3].map(n => (
+                    {[-3, -2, -1, 0, 1, 2, 3].map((n) => (
                         <People
                             key={n}
                             className={n === 0 ? "marker" : ""}
